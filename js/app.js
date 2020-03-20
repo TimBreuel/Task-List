@@ -44,8 +44,11 @@ function addTask(e) {
         li.classList.add('collection-item')
 
         //CREATE CHECKBOX
+        const label =document.createElement('label')
+        label.classList.add('secondary-content')
         const checkbox = document.createElement('input')
-        checkbox.className = ('checkbox secondary-content')
+        const span = document.createElement('span')
+        checkbox.className = ('checkbox filled-in')
         checkbox.setAttribute('type', 'checkbox')
         
         //ADD VALUE TO LI
@@ -64,7 +67,11 @@ function addTask(e) {
         //APPEND LI, LINK TO TASK LIST
         
         li.appendChild(link)
-        li.appendChild(checkbox)
+
+
+        label.appendChild(checkbox)
+        label.appendChild(span)
+        li.appendChild(label)
         taskList.append(li)
         //CLEAR THE INPUT
         taskInput.value = ''
@@ -75,10 +82,7 @@ function addTask(e) {
 //REMOVE ELEMENT FUNCTION
 function removeTask(taskLink, removeLi) {
     taskLink.addEventListener('click', function (e) {
-        if(confirm('Are you sure?')){
             removeLi.remove()
-        }
-        
     })
 }
 
@@ -97,13 +101,15 @@ function taskDouble () {
 ///////////////////
 //REMOVE ALL TASKS
 function removeAllTasks () {
-    taskList.innerHTML = ''
+    if(confirm('Sure delete all?')){
+        taskList.innerHTML = ''
     taskInput.focus()
+    }
+    
 }
 
 //////////////////
 //FILTER FUNCTION
-
 function filterTasks (e){
     //LOOP FOR ALL LI
     for (let element of taskList.children) {
@@ -152,7 +158,7 @@ function sortBtn (all, active, complete){
     //ACTIVE BTN
     active.addEventListener('click' ,function(e){
         for (let listItem of taskList.children){
-            if(listItem.children[1].checked == true) {
+            if(listItem.children[1].children[0].checked == true) {
                 listItem.classList.add('d-none')
             } else {
                 listItem.classList.remove('d-none') 
@@ -163,7 +169,7 @@ function sortBtn (all, active, complete){
     //COMPLETE BTN
     complete.addEventListener('click' ,function(e){
         for (let listItem of taskList.children){
-            if(listItem.children[1].checked == false) {
+            if(listItem.children[1].children[0].checked == false) {
                 listItem.classList.add('d-none')
             } else {
                 listItem.classList.remove('d-none') 
