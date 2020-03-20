@@ -1,6 +1,19 @@
 .d-none {
     display: none;
 }
-.blue {
-    background-color: blue;
+
+.btn-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox{
+    width: 18px !important;
+    height: 18px !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    display: inline-block;
+    position: static !important;
+    margin-right: 20px !important;
+    margin-top: 2px !important;
 }

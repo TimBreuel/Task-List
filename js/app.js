@@ -2,7 +2,7 @@
 //GET HTML ELEMENTS
 const form = document.querySelector('#task-form')
 const taskList = document.querySelector('.collection')
-const clearBtn = document.querySelector('.clear-tasks')
+const btnAll = document.querySelector('.btn-container')
 const filter = document.querySelector('#filter')
 const taskInput = document.querySelector('#task')
 
@@ -16,8 +16,12 @@ function loadEventListeners() {
     form.addEventListener('submit', addTask)
 
     //CLEAR ALL TASKS
-    clearBtn.addEventListener('click', removeAllTasks)
+    btnAll.children[0].addEventListener('click', removeAllTasks)
+
+    //FILTER FUNCTION
     filter.addEventListener('keyup', filterTasks)
+
+    sortBtn(btnAll.children[1], btnAll.children[2], btnAll.children[3])
 }
 
 ////////////////////
@@ -27,6 +31,7 @@ function addTask(e) {
 
     //CHECK TASK IS EMPTY
     if (taskInput.value.trim() === '') {
+        taskInput.focus()
         return alert('Add a value to the task')
 
     } else {
@@ -37,8 +42,14 @@ function addTask(e) {
         const li = document.createElement('li')
         //ADD CLAS
         li.classList.add('collection-item')
+
+        //CREATE CHECKBOX
+        const checkbox = document.createElement('input')
+        checkbox.className = ('checkbox secondary-content')
+        checkbox.setAttribute('type', 'checkbox')
+        
         //ADD VALUE TO LI
-        li.innerText = taskInput.value
+        li.innerHTML = taskInput.value
 
         //CREATE LINK
         const link = document.createElement('a')
@@ -47,9 +58,13 @@ function addTask(e) {
 
         //ADD REMOVE FUNCTION
         removeTask(link, li)
+        //ADD CHECKED FUNCTION
+        checkboxCheck(li, checkbox)
 
         //APPEND LI, LINK TO TASK LIST
+        
         li.appendChild(link)
+        li.appendChild(checkbox)
         taskList.append(li)
         //CLEAR THE INPUT
         taskInput.value = ''
@@ -99,4 +114,61 @@ function filterTasks (e){
         element.classList.add('d-none') 
        }
     }
+}
+
+///////////////////
+//CHECKBOX CHECKED
+function checkboxCheck (li, checkbox) {
+    checkbox.addEventListener('click', function(e){
+        if(checkbox.checked == true){
+        li.style.transition = '0.5s'
+        li.style.backgroundColor = '#c3f9f4'
+        li.style.textDecoration = 'line-through'
+        li.style.color = '#9e9e9e'
+        
+        console.log(true)
+    } else {
+        li.style.backgroundColor = '#FFFF'
+        li.style.textDecoration = 'none'
+        li.style.color = '#000'
+        li.style.transition = '0.5s'
+        console.log(false)
+    }
+    })
+    
+}
+
+////////////////
+//SORT BUTTONS
+function sortBtn (all, active, complete){
+
+    //ALL BTN
+    all.addEventListener('click' ,function(e) {
+        for (let listItem of taskList.children){
+            listItem.classList.remove('d-none')
+        }
+    })
+
+    //ACTIVE BTN
+    active.addEventListener('click' ,function(e){
+        for (let listItem of taskList.children){
+            if(listItem.children[1].checked == true) {
+                listItem.classList.add('d-none')
+            } else {
+                listItem.classList.remove('d-none') 
+            }
+        }
+    })
+
+    //COMPLETE BTN
+    complete.addEventListener('click' ,function(e){
+        for (let listItem of taskList.children){
+            if(listItem.children[1].checked == false) {
+                listItem.classList.add('d-none')
+            } else {
+                listItem.classList.remove('d-none') 
+            }
+        }
+    })
+
 }
