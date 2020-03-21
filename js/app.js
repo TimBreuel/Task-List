@@ -77,7 +77,6 @@ function addTask(e) {
         checkboxCheck(li, checkbox)
 
         //APPEND LI, LINK TO TASK LIST
-
         li.appendChild(link)
 
 
@@ -100,28 +99,34 @@ function addTask(e) {
 function removeTask(taskLink, removeLi, value) {
     taskLink.addEventListener('click', function (e) {
         removeLi.remove()
-
-        //DELETE LOCAL STORAGE
-        let tasks;
-        if (localStorage.getItem('tasks') === null) {
-            tasks = []
-
-        } else {
-            tasks = JSON.parse(localStorage.getItem('tasks'))
-        }
-
-        //LOOP THROW THE ARRAY AND DELTE THE TASK
-        tasks.forEach(function (task, index) {
-            if (value === task) {
-                tasks.splice(index, 1)
-            }
-        })
-
-        //SET OBJECT TASK TO LOCAL STRING
-        localStorage.setItem('tasks', JSON.stringify(tasks))
+        delteFromStorgae(value)
+        
 
 
     })
+}
+
+///////////////////////
+//DELETE LOCAL STORAGE
+function delteFromStorgae(value){
+    
+    let tasks;
+    if (localStorage.getItem('tasks') === null) {
+        tasks = []
+
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'))
+    }
+
+    //LOOP THROW THE ARRAY AND DELTE THE TASK
+    tasks.forEach(function (task, index) {
+        if (value === task) {
+            tasks.splice(index, 1)
+        }
+    })
+
+    //SET OBJECT TASK TO LOCAL STRING
+    localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
 
@@ -259,7 +264,7 @@ function loadTasks() {
         link.innerHTML = '<i class="fa fa-remove"></i>'
 
         //ADD REMOVE FUNCTION
-        removeTask(link, li)
+        removeTask(link, li, task)
         //ADD CHECKED FUNCTION
         checkboxCheck(li, checkbox)
 
